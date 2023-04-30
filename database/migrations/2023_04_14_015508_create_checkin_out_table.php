@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('id_patio')->index('id_patio_idx');
             $table->integer('id_veiculo')->index('id_veiculo_idx');
             $table->boolean('status');
-            $table->integer('id_funcionario')->index('id_funcionario_idx');
+            $table->integer('id_usuario');
             $table->dateTime('dh_registro');
         });
     }

@@ -2,6 +2,11 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+use App\Models\Checkinout;
+use App\Models\Veiculo;
+use App\Http\Controllers\CheckinOutController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +31,16 @@ Route::get('/main', function () {
     return view('main');
 });
 
+// Routes Dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/dashboard', [CheckinOutController::class, 'index'])->name('dashboard');
+
+Route::post('checkin', [CheckinOutController::class, 'validCheckin'])->name('checkin-create');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

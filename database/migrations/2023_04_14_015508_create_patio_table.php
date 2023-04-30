@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('patio', function (Blueprint $table) {
-            $table->integer('id', true);
+            $table->string('id', true);
             $table->integer('capacidade');
         });
     }

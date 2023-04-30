@@ -28,11 +28,6 @@
                             <x-input-label for="email" :value="__('Usuário')" />
                             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
-
-                            <!--
-                            <label for="usuario">Usuário</label>
-                            <input type="text" name="usuario" placeholder="Usuário">
-                            -->
                         </div>
 
                         <!-- Password -->
@@ -45,11 +40,6 @@
                                           required autocomplete="current-password" />
 
                             <x-input-error :messages="$errors->get('password')" class="mt-2" />
-
-                            <!--
-                            <label for="senha">Senha</label>
-                            <input type="password" name="senha" placeholder="Senha">
-                            -->
                         </div>
 
                         <!-- Remember Me -->
@@ -73,8 +63,6 @@
                             @endif
                         </div>
 
-                        <!-- Button -->
-                        <!-- <button class="btn-login">Login</button> -->
                     </div>
                 </div>
             </form>

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('vaga', function (Blueprint $table) {
             $table->integer('num_vaga');
-            $table->integer('id_patio')->index('id_patio_idx');
+            $table->string('id_patio')->index('id_patio_idx');
             $table->boolean('status');
 
             $table->primary(['num_vaga', 'id_patio']);
