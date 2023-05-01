@@ -59,7 +59,7 @@
                         <tr>
                             <td data-label="ENTRADA">{{ $car->dh_registro }}</td>
                             <td data-label="PLACA">{{ $car->placa_veiculo }}</td>
-                            <td data-label="MODELO">Renegade - Prata</td>
+                            <td data-label="MODELO">Renegade - Prata (Implementar)</td>
                             <td data-label="PATIO">{{ $car->id_patio }}</td>
                             <td data-label="VAGA">{{ $car->num_vaga }}</td>
                         </tr>
