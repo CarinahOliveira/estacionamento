@@ -8,13 +8,58 @@ body {
 
 .header-dashboard {
     font-size: x-large;
-    color: #77ffc0;
+    color: #00ff88;
     font-weight: bold;
     text-transform: uppercase;
 }
 
-/* FORM CHECKIN CARRO */
+/* Metricas */
+.card {
+    all: unset;
+    width: 310px;
+    height: 94px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    margin-left: 10vw;
+    gap: 5px;
+    padding: .4em;
+    flex: 1;
+}
 
+.card p {
+    flex: 1;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all .5s;
+    background: #2f2841;
+    border: 1px solid #00ff88;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card p:hover {
+    flex: 4;
+}
+
+.card p span {
+    min-width: 14em;
+    padding: .5em;
+    text-align: center;
+    /*transform: rotate(-90deg);*/
+    transition: all .5s;
+    text-transform: uppercase;
+    color: #00ff88;
+    letter-spacing: .1em;
+}
+/*
+.card p:hover span {
+    transform: rotate(0);
+} */
+
+/* FORM CHECKIN CARRO */
 .card-estacionamento {
     width: 80vw;
     display: flex;
@@ -25,7 +70,7 @@ body {
     border-radius: 20px;
     box-shadow: 0px 10px 40px #00000056;
     margin-left: 10vw;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .checking-car {
@@ -42,7 +87,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding-right: 30px;
+    padding-right: 20px;
 }
 
 .textfield > input {
@@ -53,16 +98,15 @@ body {
     background: #514869;
     color: #f0ffffde;
     font-size: 12pt;
-    box-shadow: 0px 10px 40px #00000056;
+    box-shadow: 0 10px 40px #00000056;
     outline: none;
     box-sizing: border-box;
-    margin: 10px 0px;
+    margin: 10px 0;
 }
 
 .btn-checking {
     width: 100%;
-    padding: 16px 0px;
-    margin: 25px;
+    padding: 16px 0;
     border: none;
     border-radius: 8px;
     outline: none;
@@ -76,7 +120,7 @@ body {
 }
 
 .form-control {
-    width: 100%;
+    width: 65%;
     border: none;
     border-radius: 10px;
     padding: 15px;
@@ -86,25 +130,62 @@ body {
     box-shadow: 0 10px 40px #00000056;
     outline: none;
     box-sizing: border-box;
-    margin: 10px 0;
-    margin-right: 30px;
+    margin-right: 20px;
 }
 
-/* TABLE CARRO ESTACIONADOS */
+/* BARRA DE PESQUISA */
+.searchCar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
 
+.searchCar input {
+    width:260px;
+    border: none;
+    border-radius: 10px;
+    padding: 16px;
+    background: #2f2841;
+    color: #f0ffffde;
+    font-size: 12pt;
+    box-shadow: 0px 10px 40px #00000056;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.btnSearchBar {
+    padding: 16px 5px;
+    border-radius: 8px;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #2b134b;
+    background: #00ff88;
+    cursor: pointer;
+    box-shadow: 0 10px 40px -12px #00ff8052;
+    margin-left: -30px;
+}
+
+.form-control-search {
+    margin: 20px 0;
+}
+
+/* TABLE CARROS ESTACIONADOS */
 .table-cars {
     width: 80vw;
-    height: 400px;
+    height: 380px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
     background: #2f2841;
     border-radius: 20px;
-    box-shadow: 0px 10px 40px #00000056;
+    box-shadow: 0 10px 40px #00000056;
     margin-left: 10vw;
-    margin-top: 40px;
     padding: 20px 0;
+    overflow-y: auto;
 }
 
 .table {
@@ -120,6 +201,7 @@ body {
     font-size: 16px;
     color: #f0ffffde;
     text-transform: uppercase;
+    border-style: hidden;
 }
 
 .table th {
@@ -131,25 +213,67 @@ body {
     background-color: #514869;
 }
 
-
-/* RESPONSIVO */
-
-@media(max-width: 500px){
-    .table thead {
-        display: none;
-    }
-
-    .table, .table tbody, .table tr, .table td {
-        display: block;
-        width: 100%;
-    }
-
+/* Mantém thead no topo do container */
+.table thead th {
+    position: sticky;
+    top: 0;
 }
 
+/* Modal Checkout */
+.modal-content {
+    background-color: #2f2841;
+    color: #00ff88;
+}
+
+.modal-header > h1 {
+    font-weight: 800;
+    font-size: 12pt;
+}
+
+.modal-header .btn-close {
+    background-color: #00ff88;
+}
+
+.textfield > input {
+    text-transform: uppercase;
+}
+
+.textfield > label {
+    color: #00ff88;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 12pt;
+}
+
+.btnCheckout {
+    width: 96%;
+    padding: 12px 0;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #2b134b;
+    background: #00ff88;
+    cursor: pointer;
+    box-shadow: 0 10px 40px -12px #00ff8052;
+    margin-top: 10px;
+}
+
+
+/* RESPONSIVO */
 @media only screen and (max-width: 950px){
+    .card {
+        margin-left: 2.5vw;
+    }
+
     .card-estacionamento {
-        width: 100%;
-        margin-left: 0px;
+        width: 95%;
+        margin-left: 2.5vw;
+    }
+    .btn-checking {
+        margin: 0;
     }
     .textfield {
         padding-right: 10px;
@@ -157,6 +281,7 @@ body {
     .form-control {
         margin-right: 10px;
     }
+
     .table tr {
         margin-bottom: 15px;
     }
@@ -175,15 +300,31 @@ body {
         font-weight: bold;
         text-align: left;
     }
+    .table thead {
+        display: none;
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
 
 }
 
 @media only screen and (max-width: 600px){
+    .card {
+        width: 210px;
+        height: 74px;
+        display: block;
+        margin-bottom: 90px;
+        margin-left: 1.5vw;
+    }
+
     .checking-car {
         flex-direction: column;
         width: 90%;
         height: auto;
-        margin: 0;
+        padding-top: 10px;
     }
     .textfield {
         padding-right: 0;
@@ -191,11 +332,26 @@ body {
     .textfield > input {
         padding: 10px 0;
     }
-    btn.btn-checking {
-        padding: 8px 0 !important;
-        margin: 0;
+    .btn-checking {
+        padding: 8px 0;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        font-weight: 400;
     }
     .form-control {
         padding: 10px 0;
+        width: 100%;
+        margin-left: 6px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+    .searchCar input {
+        width: 170px;
+        padding: 12px;
+    }
+    .btnSearchBar {
+        padding: 12px 2px;
+        font-weight: 400;
     }
 }

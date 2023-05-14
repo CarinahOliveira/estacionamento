@@ -22,7 +22,7 @@ class Checkinout extends Model
         ];
 
     public function vaga() {
-        return $this->hasOne(Vaga::class, 'num_vaga');
+        return $this->hasOne(Vaga::class, 'num_vaga', 'num_vaga');
     }
     public function veiculo() {
         return $this->hasOne(Veiculo::class, 'id', 'id_veiculo');

@@ -10,6 +10,7 @@ use App\Models\Patio;
 use App\Models\Vaga;
 
 use Illuminate\Http\Request;
+use function Pest\Laravel\json;
 use function PHPUnit\Framework\isEmpty;
 
 class CheckinOutController extends Controller
@@ -17,16 +18,30 @@ class CheckinOutController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(){
+    public function index(Request $request){
         $patios = Patio::all();
-        $vagas = Vaga::where('status', '=', 0)->get();
+        $vagasTotal = Vaga::get();
+        $vagasLivre = Vaga::where('status', '=', 0)->get();
+        $vagasOcupado = Vaga::where('status', '=', 1)->get();
 
-        $cars = DB::table('veiculos')
-            ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
-            ->select('checkin_outs.*', 'veiculos.placa_veiculo')
-            ->get();
+        $search = $request->searchCar;
 
-        return view('dashboard', compact('patios', 'vagas', 'cars'));
+        if ($search){
+            $cars = DB::table('veiculos')
+                ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
+                ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.marca', 'veiculos.modelo', 'veiculos.cor')
+                ->where('veiculos.placa_veiculo', 'like', '%'.$search.'%')
+                ->where('checkin_outs.status', '=', 1)
+                ->get();
+        } else {
+            $cars = DB::table('veiculos')
+                ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
+                ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.marca', 'veiculos.modelo', 'veiculos.cor')
+                ->where('checkin_outs.status', '=', 1)
+                ->get();
+        }
+
+        return view('dashboard', compact('patios', 'vagasLivre', 'vagasTotal', 'vagasOcupado', 'cars', 'search'));
     }
 
     /**
@@ -55,6 +70,9 @@ class CheckinOutController extends Controller
         $veiculo = new Veiculo;
 
         $veiculo->placa_veiculo = $request->placa;
+        $veiculo->marca = $request->marca;
+        $veiculo->modelo = $request->modelo;
+        $veiculo->cor = $request->cor;
         $veiculo->save();
 
         return $veiculo;
@@ -81,13 +99,49 @@ class CheckinOutController extends Controller
         ]);
     }
 
+    /** Desocupa Vaga */
+    public function  desocupaVaga($checkout){
+        $desocupaVaga = Vaga::where('num_vaga', '=', $checkout)->update([
+            'status' => 0
+        ]);;
+    }
+
+    /** Realiza Checkout -> alterar status = 0 */
+    public function realizaCheckout($id){
+        $checkout = Checkinout::find($id);
+
+        if($checkout && $checkout->exists){
+            $this->desocupaVaga($checkout->num_vaga);
+
+            $checkout->status = 0;
+            $checkout->save();
+
+            return redirect('/dashboard');
+        }
+    }
+
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function searchCar(Request $request, $cars)
     {
-        //
+        $search = $request->searchCar;
+
+        if ($search){
+            $cars = DB::table('veiculos')
+                ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
+                ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.modelo', 'veiculos.cor')
+                ->where('checkin_outs.status', '=', 1)
+                ->orWhere('veiculos.placa_veiculo', 'like', '%'.$search.'%')
+                ->get();
+        } else {
+            $cars = DB::table('veiculos')
+                ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
+                ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.modelo', 'veiculos.cor')
+                ->where('checkin_outs.status', '=', 1)
+                ->get();
+        }
     }
 
     /**

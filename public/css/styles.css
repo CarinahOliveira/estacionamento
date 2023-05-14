@@ -14,9 +14,10 @@
 }
 
 footer {
+    margin-top: 100px;
     box-sizing: border-box;
     letter-spacing: 1px;
-    width: 100vw;
+    width: 100%;
     color: var(--color-neutral-40);
 }
 
@@ -26,7 +27,7 @@ footer {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 2rem 5rem;
+    padding: 1.5rem 5rem;
 }
 
 #footer-about > h1 {
@@ -82,7 +83,7 @@ footer {
     justify-content: center;
     background-color: #201b2c;
     font-size: 9pt;
-    padding: 1.5rem;
+    padding: .5rem;
     font-weight: var(--color-neutral-0);
 }
 

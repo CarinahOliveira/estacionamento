@@ -38,6 +38,8 @@ Route::get('/dashboard', function () {
 
 Route::get('/dashboard', [CheckinOutController::class, 'index'])->name('dashboard');
 
+Route::post('/dashboard/checkout/{id}', [CheckinOutController::class, 'realizaCheckout'])->name('dashboard.checkout');
+
 Route::post('checkin', [CheckinOutController::class, 'validCheckin'])->name('checkin-create');
 
 
