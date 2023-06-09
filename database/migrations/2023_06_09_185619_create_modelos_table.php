@@ -13,8 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('vaga', function (Blueprint $table) {
-            $table->foreign(['id_patio'], 'id_patio')->references(['id'])->on('patio')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+        Schema::create('modelos', function (Blueprint $table) {
+            $table->string('fabricante')->nullable();
+            $table->string('modelo')->nullable();
+            $table->string('veiculo')->nullable();
         });
     }
 
@@ -25,8 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('vaga', function (Blueprint $table) {
-            $table->dropForeign('id_patio');
-        });
+        Schema::dropIfExists('modelos');
     }
 };

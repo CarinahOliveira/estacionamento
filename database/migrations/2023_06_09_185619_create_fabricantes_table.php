@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('patio', function (Blueprint $table) {
-            $table->string('id', true);
-            $table->integer('capacidade');
+        Schema::create('fabricantes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->char('fabricante', 10)->default('');
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('patio');
+        Schema::dropIfExists('fabricantes');
     }
 };

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Recibo;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Models\Checkinout;
 use App\Models\Veiculo;
 use App\Models\Patio;
 use App\Models\Vaga;
+use App\Models\Fabricante;
 
 use Illuminate\Http\Request;
 use function Pest\Laravel\json;
@@ -23,25 +26,11 @@ class CheckinOutController extends Controller
         $vagasTotal = Vaga::get();
         $vagasLivre = Vaga::where('status', '=', 0)->get();
         $vagasOcupado = Vaga::where('status', '=', 1)->get();
+        $fabricante = Fabricante::all();
 
-        $search = $request->searchCar;
+        $cars = $this->searchCar($request);
 
-        if ($search){
-            $cars = DB::table('veiculos')
-                ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
-                ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.marca', 'veiculos.modelo', 'veiculos.cor')
-                ->where('veiculos.placa_veiculo', 'like', '%'.$search.'%')
-                ->where('checkin_outs.status', '=', 1)
-                ->get();
-        } else {
-            $cars = DB::table('veiculos')
-                ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
-                ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.marca', 'veiculos.modelo', 'veiculos.cor')
-                ->where('checkin_outs.status', '=', 1)
-                ->get();
-        }
-
-        return view('dashboard', compact('patios', 'vagasLivre', 'vagasTotal', 'vagasOcupado', 'cars', 'search'));
+        return view('dashboard', compact('patios', 'vagasLivre', 'vagasTotal', 'vagasOcupado', 'cars', 'fabricante'));
     }
 
     /**
@@ -65,6 +54,20 @@ class CheckinOutController extends Controller
         }
     }
 
+    /** Save Checkin */
+    public function saveCheckin(Request $request, $veiculo){
+        $checkin = new Checkinout;
+
+        $checkin->num_vaga = $request->vaga;
+        $checkin->id_patio = $request->patio;
+        $checkin->id_veiculo = $veiculo->id;
+        $checkin->status = 1;
+        $checkin->id_usuario = Auth::id();
+        $checkin->dh_registro = now();
+
+        $checkin->save();
+    }
+
     /** Create Veiculo */
     public function createVeiculo(Request $request){
         $veiculo = new Veiculo;
@@ -78,25 +81,34 @@ class CheckinOutController extends Controller
         return $veiculo;
     }
 
-    /** Save Checkin */
-    public function saveCheckin(Request $request, $veiculo){
-        $checkin = new Checkinout;
-
-        $checkin->num_vaga = $request->vaga;
-        $checkin->id_patio = $request->patio;
-        $checkin->id_veiculo = $veiculo->id;
-        $checkin->status = 1;
-        $checkin->id_usuario = 1;
-        $checkin->dh_registro = now();
-
-        $checkin->save();
-    }
-
     /** Ocupa Vaga */
     public function ocupaVaga(Request $request){
         $vaga = Vaga::where('num_vaga', '=', $request->vaga)->update([
             'status' => 1
         ]);
+    }
+
+    /**
+     * Barra de Pesquisa - Busca o carro na lista de checkin
+     */
+    public function searchCar(Request $request){
+        $search = $request->searchCar;
+
+        if ($search){
+            $cars = DB::table('veiculos')
+                ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
+                ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.marca', 'veiculos.modelo', 'veiculos.cor')
+                ->where('veiculos.placa_veiculo', 'like', '%'.$search.'%')
+                ->where('checkin_outs.status', '=', 1)
+                ->get();
+        } else {
+            $cars = DB::table('veiculos')
+                ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
+                ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.marca', 'veiculos.modelo', 'veiculos.cor')
+                ->where('checkin_outs.status', '=', 1)
+                ->get();
+        }
+        return $cars;
     }
 
     /** Desocupa Vaga */
@@ -106,7 +118,9 @@ class CheckinOutController extends Controller
         ]);;
     }
 
-    /** Realiza Checkout -> alterar status = 0 */
+    /**
+     * Realiza Checkout -> alterar status = 0
+     */
     public function realizaCheckout($id){
         $checkout = Checkinout::find($id);
 
@@ -120,59 +134,51 @@ class CheckinOutController extends Controller
         }
     }
 
-
     /**
-     * Store a newly created resource in storage.
+     * Calculo Checkout
      */
-    public function searchCar(Request $request, $cars)
-    {
-        $search = $request->searchCar;
+    public  function calculoCheckout(Request $request, $id){
+        $tempo = Checkinout::where('id', '=', $id)->get('dh_registro')[0]->dh_registro;
+        $tempo = now()->diffInMinutes($tempo);
 
-        if ($search){
-            $cars = DB::table('veiculos')
-                ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
-                ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.modelo', 'veiculos.cor')
-                ->where('checkin_outs.status', '=', 1)
-                ->orWhere('veiculos.placa_veiculo', 'like', '%'.$search.'%')
-                ->get();
-        } else {
-            $cars = DB::table('veiculos')
-                ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
-                ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.modelo', 'veiculos.cor')
-                ->where('checkin_outs.status', '=', 1)
-                ->get();
+        $hora = floor($tempo/60);
+        $resto = $tempo%60;
+        $horas = $hora.':'.$resto;
+
+        $tempo2 = ceil(($tempo/60));
+
+        if($tempo2 <= 1){
+            $valor = 1;
+            $valor = "R$".$valor.",00";
+        } else if ( $tempo2 > 1 ) {
+            $valor = 2 * $tempo2;
+            $valor = "R$".$valor.",00";
         }
+
+        $car = DB::table('veiculos')
+            ->join('checkin_outs', 'veiculos.id', '=', 'checkin_outs.id_veiculo')
+            ->select('checkin_outs.*', 'veiculos.placa_veiculo', 'veiculos.marca', 'veiculos.modelo', 'veiculos.cor')
+            ->where('checkin_outs.id', '=', $id)
+            ->get();
+
+        $id_veiculo = Veiculo::where('id', '=', $car[0]->id_veiculo)->get('id');
+        $this->createRecibo($horas, $valor, $id_veiculo[0]->id);
+
+        return view('checkout', compact('valor', 'tempo2', 'car', 'horas'));
     }
 
     /**
-     * Display the specified resource.
+     * @return Recibo
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function createRecibo($tempo, $valor, $id){
+        $recibo = new Recibo;
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
+        $recibo->id_veiculo = $id;
+        $recibo->dh_recibo = now();
+        $recibo->tempo_permanencia = $tempo;
+        $recibo->valor = $valor;
+        $recibo->id_usuario = Auth::id();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        $recibo->save();
     }
 }

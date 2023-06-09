@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('checkin_out', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->integer('num_vaga')->index('num_vaga_idx');
-            $table->integer('id_patio')->index('id_patio_idx');
-            $table->integer('id_veiculo')->index('id_veiculo_idx');
+        Schema::create('vagas', function (Blueprint $table) {
+            $table->integer('num_vaga');
+            $table->string('id_patio', 8)->index('id_patio_idx');
             $table->boolean('status');
-            $table->integer('id_usuario');
-            $table->dateTime('dh_registro');
+
+            $table->primary(['num_vaga', 'id_patio']);
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('checkin_out');
+        Schema::dropIfExists('vagas');
     }
 };

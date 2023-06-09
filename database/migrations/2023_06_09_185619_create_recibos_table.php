@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('recibo', function (Blueprint $table) {
+        Schema::create('recibos', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('id_veiculo')->index('id_veiculo_idx');
             $table->dateTime('dh_recibo');
-            $table->decimal('tempo_permanencia', 10, 0);
-            $table->decimal('valor', 10, 0);
-            $table->integer('id_preco_hora')->index('id_preco_hora_idx');
-            $table->integer('id_funcionario')->index('id_funcionario_idx');
+            $table->string('tempo_permanencia', 10);
+            $table->string('valor', 10);
+            $table->integer('id_usuario')->nullable();
         });
     }
 
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recibo');
+        Schema::dropIfExists('recibos');
     }
 };

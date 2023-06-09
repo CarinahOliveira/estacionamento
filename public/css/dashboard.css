@@ -16,7 +16,7 @@ body {
 /* Metricas */
 .card {
     all: unset;
-    width: 310px;
+    width: 360px;
     height: 94px;
     border-radius: 4px;
     display: flex;
@@ -87,7 +87,7 @@ body {
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding-right: 20px;
+    padding: 10px;
 }
 
 .textfield > input {
@@ -101,7 +101,7 @@ body {
     box-shadow: 0 10px 40px #00000056;
     outline: none;
     box-sizing: border-box;
-    margin: 10px 0;
+    margin-left: -10px;
 }
 
 .btn-checking {
@@ -120,7 +120,7 @@ body {
 }
 
 .form-control {
-    width: 65%;
+    width: 100%;
     border: none;
     border-radius: 10px;
     padding: 15px;
@@ -130,7 +130,9 @@ body {
     box-shadow: 0 10px 40px #00000056;
     outline: none;
     box-sizing: border-box;
-    margin-right: 20px;
+    margin-right: 15px;
+
+
 }
 
 /* BARRA DE PESQUISA */
@@ -220,33 +222,36 @@ body {
 }
 
 /* Modal Checkout */
-.modal-content {
-    background-color: #2f2841;
-    color: #00ff88;
+.card-checkout{
+    width: 40%;
+    background: #2f2841;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px #00000056;
+    margin-left: 30%;
+    margin-top: 50px;
+    padding: 20px;
 }
 
-.modal-header > h1 {
+.textfield-checkout {
+    width: 100%;
+    margin-left: 5%;
+}
+
+.textfield-checkout > input {
+    text-transform: uppercase;
+    width: 90%;
+}
+
+.textfield-checkout > label {
+    color: #00ff88;
+    text-transform: uppercase;
     font-weight: 800;
     font-size: 12pt;
-}
-
-.modal-header .btn-close {
-    background-color: #00ff88;
-}
-
-.textfield > input {
-    text-transform: uppercase;
-}
-
-.textfield > label {
-    color: #00ff88;
-    text-transform: uppercase;
-    font-weight: 800;
-    font-size: 12pt;
+    margin: 10px 0;
 }
 
 .btnCheckout {
-    width: 96%;
+    width: 90%;
     padding: 12px 0;
     border: none;
     border-radius: 8px;
@@ -258,7 +263,9 @@ body {
     background: #00ff88;
     cursor: pointer;
     box-shadow: 0 10px 40px -12px #00ff8052;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-left: 5%;
+    margin-bottom: 20px;
 }
 
 

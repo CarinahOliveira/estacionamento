@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('veiculo', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->string('placa_veiculo', 7);
+        Schema::table('recibos', function (Blueprint $table) {
+            $table->foreign(['id_veiculo'], 'id_veiculo')->references(['id'])->on('veiculos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -26,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('veiculo');
+        Schema::table('recibos', function (Blueprint $table) {
+            $table->dropForeign('id_veiculo');
+        });
     }
 };

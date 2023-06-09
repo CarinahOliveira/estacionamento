@@ -20,6 +20,8 @@ Turma: EAD - ADS 5B
 
 Board: https://github.com/users/CarinahOliveira/projects/1/views/1
 
-Diagrama Entidade Relacionamento: https://drive.google.com/file/d/1nK70pufXWV9b33YQiCLPDmCc2rlxKJ_j/view?usp=sharing
+Diagrama de Caso de Uso: https://drive.google.com/file/d/1-YpYVvzlNoN0LQTudwKV9CtCDgI_UUN0/view?usp=sharing
+
+Diagrama de Classe: https://drive.google.com/file/d/12KITAUaNy-6WRrsAFkwZc5Ur1BOFOfZv/view?usp=sharing
 
 

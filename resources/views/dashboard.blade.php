@@ -26,15 +26,12 @@
         <p><span>Ocupado: {{ $vagasOcupado->count() }}</span></p>
     </div>
     <div>
-
-
         <!-- Form Checking -->
         <form action="{{ route('checkin-create') }}" method="post">
             @csrf
-
             <div class="card-estacionamento">
-
                 <div class="checking-car">
+
                     <!-- Placa -->
                     <div class="textfield">
                         <x-text-input id="placa" class="form-control" type="text" placeholder="PLACA" name="placa" required autofocus autocomplete="placa" />
@@ -51,13 +48,22 @@
                     </div>
 
                     <!-- Cor -->
-                    <div class="textfield">
-                        <x-text-input id="cor" class="form-control" type="text" placeholder="COR" name="cor" required autofocus autocomplete="cor" />
-                    </div>
+                    <select class="form-control" id="cor" name="cor" required autofocus autocomplete="cor">
+                        <option disabled selected>COR</option>
+                        <option v-text="1">Azul</option>
+                        <option v-text="2">Branco</option>
+                        <option v-text="3">Bege</option>
+                        <option v-text="4">Cinza</option>
+                        <option v-text="5">Marrom</option>
+                        <option v-text="6">Prata</option>
+                        <option v-text="7">Preto</option>
+                        <option v-text="8">Vermelho</option>
+                        <option v-text="9">Verde</option>
+                    </select>
 
                     <!-- Patio -->
                     <select class="form-control" id="patio" name="patio" required autofocus autocomplete="patio">
-                        <option selected>Selecione o Patio</option>
+                        <option disabled selected>Selecione o Patio</option>
                         @foreach($patios as $patio)
                             <option v-text="{{ $patio->id }}">{{ $patio->id }}</option>
                         @endforeach
@@ -65,7 +71,7 @@
 
                     <!-- Vaga -->
                     <select class="form-control" id="vaga" name="vaga" required autofocus autocomplete="vaga">
-                        <option selected>Selecione a Vaga</option>
+                        <option disabled selected>Selecione a Vaga</option>
                         @foreach($vagasLivre as $vaga)
                             <option value="{{ $vaga->num_vaga }}">{{ $vaga->num_vaga }}</option>
                         @endforeach
@@ -84,7 +90,6 @@
                 <button class="btnSearchBar" type="submit">Search</button>
             </form>
         </div>
-
 
         <!-- Table list carr status == checking -->
         <div class="table-cars" id="tableCars">
@@ -107,12 +112,14 @@
                         <td data-label="MODELO">{{ $car->marca }} - {{ $car->modelo }} - {{ $car->cor }}</td>
                         <td data-label="PATIO">{{ $car->id_patio }}</td>
                         <td data-label="VAGA">{{ $car->num_vaga }}</td>
+
                         <td data-label="CHECKOUT">
-                            <a href="#checkout-{{$car->id}}" data-bs-toggle="modal" data-bs-target="#checkout-{{$car->id}}">
+                            <a href="{{ route('dashboard.calc', $car->id) }}">
                                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
                             </a>
                         </td>
-                        @include('checkout')
+
+                        <!--include('checkout')-->
                     </tr>
                 @endforeach
                 </tbody>

@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('vaga', function (Blueprint $table) {
-            $table->integer('num_vaga');
-            $table->string('id_patio')->index('id_patio_idx');
-            $table->boolean('status');
-
-            $table->primary(['num_vaga', 'id_patio']);
+        Schema::create('patios', function (Blueprint $table) {
+            $table->string('id', 8)->primary();
+            $table->integer('capacidade');
         });
     }
 
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vaga');
+        Schema::dropIfExists('patios');
     }
 };
