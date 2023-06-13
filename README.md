@@ -1,5 +1,5 @@
 ## TCC - ANÁLISE E DESENVOLVIMENTO DE SISTEMAS
-Nota: em andamento ...
+Nota: 10
 
 
 ## OBJETIVO
